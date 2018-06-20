@@ -65,11 +65,14 @@ function getSession(req, res) {
     res.send(value);
 }
 
-
 var userService = require('./service/user.service.server');
 userService(app);
 
+
+var port = process.env.PORT || 4000;
+console.log("================== PORT =================");
+console.log(port);
+console.log(process.env.PORT);
+
 require('./service/section.service.server')(app);
-
-
-app.listen(process.env.PORT);
+app.listen(port);
