@@ -6,6 +6,8 @@ mongoose.connect('mongodb://localhost/webdev-hw');
 
 
 var app = express();
+const idleTimeoutSeconds = 1800;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -22,9 +24,13 @@ app.use(function(req, res, next) {
 
 var session = require('express-session');
 app.use(session({
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    secret: 'any string'
+    secret: 'any string',
+    cookie: {
+        maxAge: idleTimeoutSeconds * 1000,
+    },
+    rolling: true
 }));
 
 

@@ -15,10 +15,16 @@ module.exports = function (app) {
         var credentials = req.body;
         userModel
             .findUserByCredentials(credentials)
-            .then(function(user) {
-                req.session['currentUser'] = user;
-                res.json(user);
-            })
+            .then((user) => {
+                if (user === null) {
+                    res.json(null);
+                }
+                else {
+                    req.session['currentUser'] = user;
+                    res.json(user);
+                }
+            }
+            )
     }
 
     function update(req, res) {
