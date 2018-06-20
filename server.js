@@ -5,7 +5,7 @@ const remoteURL = 'mongodb://heroku_3qkqphch:6apr8qnv9tr0pbthftnj6oqn5t@ds263520
 var express = require('express');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(remoteURL);
 
 
 var app = express();
