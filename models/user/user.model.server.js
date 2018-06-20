@@ -10,6 +10,10 @@ function findUserById(userId) {
     return userModel.findById(userId);
 }
 
+function findUserByUsername(username) {
+    return userModel.findOne(username);
+}
+
 function createUser(user) {
     return userModel.create(user);
 }
@@ -18,11 +22,17 @@ function findAllUsers() {
     return userModel.find();
 }
 
+function updateUser(cond, info) {
+    return userModel.update(cond, info);
+}
+
 var api = {
     createUser: createUser,
     findAllUsers: findAllUsers,
     findUserById: findUserById,
-    findUserByCredentials: findUserByCredentials
+    findUserByCredentials: findUserByCredentials,
+    updateUser: updateUser,
+    findUserByUsername: findUserByUsername
 };
 
 module.exports = api;

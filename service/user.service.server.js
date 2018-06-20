@@ -5,6 +5,8 @@ module.exports = function (app) {
     app.get('/api/profile', profile);
     app.post('/api/logout', logout);
     app.post('/api/login', login);
+    app.post('/api/update/user', update);
+    app.get('/api/username/:username', findUserByUsername);
 
 
     var userModel = require('../models/user/user.model.server');
@@ -17,6 +19,14 @@ module.exports = function (app) {
                 req.session['currentUser'] = user;
                 res.json(user);
             })
+    }
+
+    function update(req, res) {
+        var cond = {username: req.body.username};
+        var info = req.body.info;
+        userModel
+            .updateUser(cond, info)
+            .then(res.send(req.session['currentUser']));
     }
 
     function logout(reg, res) {
@@ -32,23 +42,31 @@ module.exports = function (app) {
             })
     }
 
-    function profile(req, res) {
-        res.send(req.session['currentUser']);
+    function findUserByUsername(req, res) {
+        var username = req.params['username'];
+        userModel.findUserByUsername({username: username})
+            .then(function (user) {
+                res.send(user);
+            })
     }
 
-    function createUser(req, res) {
+    function profile(req, res) {
+        userModel.findUserById(req.session['currentUser']['_id'])
+            .then(function (user) {
+                res.json(user);
+            });
+    }
+
+    function createUser(req, res, ) {
         var user = req.body;
         userModel.createUser(user)
             .then(function (user) {
                 req.session['currentUser'] = user;
                 res.send(user);
-            })
+            });
     }
 
     function findAllUsers(req, res) {
-        userModel.findAllUsers()
-            .then(function (users) {
-                res.send(users);
-            })
+        userModel.findAllUsers().then(function (users) {res.send(users);})
     }
-}
+};

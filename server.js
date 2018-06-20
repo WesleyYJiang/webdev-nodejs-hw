@@ -1,12 +1,11 @@
 
-var express = require('express')
+var express = require('express');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/webdev-hw');
 
 
 var app = express();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -21,10 +20,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-
-
-
-var session = require('express-session')
+var session = require('express-session');
 app.use(session({
     resave: false,
     saveUninitialized: true,
@@ -34,15 +30,17 @@ app.use(session({
 
 app.get('/', function (req, res) {
     res.send('Hello World')
-})
+});
 
 app.get('/message/:theMessage', function (req, res) {
     var theMessage = req.params['theMessage'];
     res.send(theMessage);
-})
+});
 
-app.get('/api/session/set/:name/:value', setSession);
-app.get('/api/session/get/:name', getSession);
+app.get('/api/session/set/:name/:value',
+    setSession);
+app.get('/api/session/get/:name',
+    getSession);
 // app.get('/api/session/get',
 //   getSessionAll);
 // app.get('/api/session/reset',
@@ -62,7 +60,9 @@ function getSession(req, res) {
 }
 
 
-var userService = require('./services/user.service.server');
+var userService = require('./service/user.service.server');
 userService(app);
+
+require('./service/section.service.server')(app);
 
 app.listen(4000);
