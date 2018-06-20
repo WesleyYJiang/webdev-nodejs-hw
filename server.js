@@ -1,8 +1,11 @@
+const localURL = 'mongodb://localhost/webdev-hw';
+const remoteURL = 'mongodb://heroku_3qkqphch:6apr8qnv9tr0pbthftnj6oqn5t@ds263520.mlab.com:63520/heroku_3qkqphch';
+
 
 var express = require('express');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/webdev-hw');
+mongoose.connect(remoteURL);
 
 
 var app = express();
@@ -70,5 +73,6 @@ var userService = require('./service/user.service.server');
 userService(app);
 
 require('./service/section.service.server')(app);
+
 
 app.listen(4000);
