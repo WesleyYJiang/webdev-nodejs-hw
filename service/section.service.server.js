@@ -33,7 +33,9 @@ module.exports = function (app) {
     }
     function deleteSection(req, res) {
         var sectionId = req.params['sectionId'];
-        sectionModel.deleteSection({_id: sectionId}).then(() => res.json({id: sectionId}));
+        enrollmentModel.unEnrollStudentInSection({section: sectionId}).then(() =>
+            sectionModel.deleteSection({_id: sectionId}).then(() => res.json({id: sectionId})));
+
     }
 
     function enrollStudentInSection(req, res) {
